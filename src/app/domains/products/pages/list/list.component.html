@@ -1,0 +1,14 @@
+
+@if ( products().length) {
+    <div class="grid grid-cols-3">
+        @for (product of products(); track product; let i = $index) {
+            <app-product [info]="product"></app-product>
+        }
+    </div>
+} @else {
+    <div>
+        <p>
+            {{ 'No hay elementos para mostrar'  }}
+        </p>
+    </div>
+}
