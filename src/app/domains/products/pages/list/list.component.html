@@ -1,8 +1,8 @@
 
 @if ( products().length) {
-    <div class="grid grid-cols-3">
+    <div class="grid grid-cols-3 gap-8">
         @for (product of products(); track product; let i = $index) {
-            <app-product [info]="product"></app-product>
+            <app-product [info]="product" [data]="{page, size, total}" (addCart)="item($event)"></app-product>
         }
     </div>
 } @else {
