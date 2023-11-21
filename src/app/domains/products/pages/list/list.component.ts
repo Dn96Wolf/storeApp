@@ -1,54 +1,46 @@
-import { Component, signal } from '@angular/core';
+import { ProductComponent } from '@products/components/product/product.component';
+import { HeaderComponent } from '@shared/components/header/header.component';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { ProductService } from '@shared/services/product.service';
+import { CartService } from '@shared/services/cart.service';
+import { APIProduct } from '@shared/models/product.model';
 import { CommonModule } from '@angular/common';
-import { ProductComponent } from './../../components/product/product.component';
 
-export interface Product {
-  image: string,
-  title: string,
-  price: number
-}
+
 
 @Component({
   selector: 'app-list',
   standalone: true,
-  imports: [CommonModule, ProductComponent],
+  imports: [CommonModule, ProductComponent, HeaderComponent],
   templateUrl: './list.component.html',
   styleUrl: './list.component.scss'
 })
 
-export class ListComponent {
+export class ListComponent implements OnInit {
 
   public page = 1;
   public size = 10;
   public total = 35;
+  public products = signal<APIProduct[]>([]);
+  private cartService = inject(CartService);
+  private productService = inject(ProductService)
+  ngOnInit(): void {
+    this.productService.getProducts().subscribe({
+      next: (response: APIProduct[]) => {
+        this.products.set(response)
+      },
+      error: () => {
 
-
-  public products = signal<Product[]>([
-    {
-      image: 'https://picsum.photos/640/640',
-      title: 'Producto 1',
-      price: 3000
-    },
-    {
-      image: 'https://picsum.photos/640/640',
-      title: 'Producto 1',
-      price: 4000
-    },
-    {
-      image: 'https://picsum.photos/640/640',
-      title: 'Producto 1',
-      price: 5000
-    },
-    {
-      image: 'https://picsum.photos/640/640',
-      title: 'Producto 1',
-      price: 4000
-    },
-  ])
-
-
-  public item(e:string):void{
-    console.log('Aver aver aver',e)
+      }
+    })
   }
+
+
+
+  public item(newProduct: APIProduct): void {
+    this.cartService.addToCart(newProduct)
+  }
+
+
 
 }

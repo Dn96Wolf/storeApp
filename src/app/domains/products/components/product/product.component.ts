@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { APIProduct } from '../../../shared/models/product.model';
 import { CommonModule } from '@angular/common';
-import { Product } from '../../pages/list/list.component';
 
 @Component({
   selector: 'app-product',
@@ -12,19 +12,20 @@ import { Product } from '../../pages/list/list.component';
 
 export class ProductComponent {
 
-  @Input() public info: Product = {
-    image: '',
+  @Input() public info: APIProduct = {
+    id: 0,
+    images: [],
     title: '',
-    price: 0
+    price: 0,
+    category:'',
+    description:''
   };
 
   @Input() data: { page: number, size: number, total: number } = { page: 1, size: 10, total: 0 };
+  @Output() addCart = new EventEmitter<APIProduct>();
 
-  @Output() addCart = new EventEmitter<string>();
-
-
-  public addToCartHandler(titleProduct:string) {
-    this.addCart.emit(titleProduct)
+  public addToCartHandler(product:APIProduct) {
+    this.addCart.emit(product)
   }
 
 }
