@@ -2,28 +2,31 @@ import { CounterComponent } from '../../../shared/components/counter/counter.com
 import { WaveAudioComponent } from '../../components/wave-audio/wave-audio.component';
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from '@shared/components/header/header.component';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, CounterComponent, WaveAudioComponent],
+  imports: [
+    CommonModule,
+    CounterComponent,
+    WaveAudioComponent,
+    HeaderComponent,
+  ],
   templateUrl: './about.component.html',
-  styleUrl: './about.component.scss'
+  styleUrl: './about.component.scss',
 })
-
 export class AboutComponent {
-
   public duration = signal<number>(1000);
   public message = signal<string>('Hola');
   public audio = 'assets/Grabación.m4a';
-  public changeDuration(event:Event){
+  public changeDuration(event: Event) {
     const input = event.target as HTMLInputElement;
     this.duration.set(input.valueAsNumber);
   }
 
-  public changeMessage(event:Event){
+  public changeMessage(event: Event) {
     const input = event.target as HTMLInputElement;
     this.message.set(input.value);
   }
-
 }

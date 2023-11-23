@@ -6,41 +6,36 @@ import { CartService } from '@shared/services/cart.service';
 import { APIProduct } from '@shared/models/product.model';
 import { CommonModule } from '@angular/common';
 
-
-
 @Component({
   selector: 'app-list',
   standalone: true,
   imports: [CommonModule, ProductComponent, HeaderComponent],
   templateUrl: './list.component.html',
-  styleUrl: './list.component.scss'
+  styleUrl: './list.component.scss',
 })
-
 export class ListComponent implements OnInit {
-
   public page = 1;
   public size = 10;
   public total = 35;
   public products = signal<APIProduct[]>([]);
   private cartService = inject(CartService);
-  private productService = inject(ProductService)
+  private productService = inject(ProductService);
   ngOnInit(): void {
     this.productService.getProducts().subscribe({
       next: (response: APIProduct[]) => {
-        this.products.set(response)
+        const lista = response.map((product: APIProduct) => {
+          return {
+            ...product,
+            createdAt: new Date(),
+          };
+        });
+        this.products.set(lista);
       },
-      error: () => {
-
-      }
-    })
+      error: () => {},
+    });
   }
-
-
 
   public item(newProduct: APIProduct): void {
-    this.cartService.addToCart(newProduct)
+    this.cartService.addToCart(newProduct);
   }
-
-
-
 }

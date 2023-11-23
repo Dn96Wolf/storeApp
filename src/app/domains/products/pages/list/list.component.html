@@ -1,19 +1,17 @@
-<div class="container mx-auto">
-
-  <app-header></app-header>
-
-  @if ( products().length) {
-  <div class="grid grid-cols-4 gap-8 mt-5">
-    @for (product of products(); track product; let i = $index) {
-    <app-product [info]="product" [data]="{page, size, total}" (addCart)="item($event)" />
-    }
-  </div>
-  } @else {
-  <div>
-    <p>
-      {{ 'No hay elementos para mostrar' }}
-    </p>
-  </div>
+@if ( products().length) {
+<div class="grid grid-cols-4 gap-8 mt-5">
+  @for (product of products(); track product; let i = $index) {
+  <app-product
+    [info]="product"
+    [data]="{page, size, total}"
+    (addCart)="item($event)"
+  />
   }
-
 </div>
+} @else {
+<div>
+  <p>
+    {{ "No hay elementos para mostrar" }}
+  </p>
+</div>
+}
